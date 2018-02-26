@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import org.apache.commons.io.comparator.NameFileComparator;
 
 public class SplashTool {
     ArrayList<Byte> mProcessed;
@@ -39,16 +41,17 @@ public class SplashTool {
         };
 
         File path = new File(mPath);
-        processFileList(path.listFiles(pngSupport));
+        processFileList(path.listFiles());
         return null;
     }
 
     private void processFileList(File[] files) {
 
         int cur;
+        Arrays.sort(files,NameFileComparator.NAME_COMPARATOR);
 
         for (File file : files) {
-            if (file.isFile()) {
+            if (file.isFile() && file.getName().toLowerCase().endsWith(".png")) {
                  try {
                     System.out.println(String.format("Processing: %s", file.getName()));
                      BufferedImage image = ImageIO.read(file);
